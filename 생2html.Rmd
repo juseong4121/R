@@ -1,0 +1,104 @@
+---
+title: "2강 rmd 파일에 R코드 넣기"
+author: "박주성"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(message = F)
+```
+### tip
+library 불러 올 때 warning, message를 이후로 안뜨게 하고 싶으면 위 setup의
+
+knitr::opts_chunk$set(warning=F)
+
+knitr::opts_chunk$set(message = F) 
+
+로 해두면 된다.
+
+## R 코드 삽입 방법
+
+
+### R 코드 Chunk로 ('''~~~''')로 삽입
+
+{r chunck name, option}
+
+echo option 기능 확인
+
+```{r testcode1, echo = T}
+a <- c(1:5)
+b <- c(2,4)
+a;b
+```
+
+echo = F는 결과만 나온다.
+
+디폴트 값은 echo = T이다.
+
+```{r testcode2, echo= F}
+a <- c(1:10)
+b <- c(2,4)
+a;b
+```
+
+eval option 기능 확인
+
+```{r testcodeEvalTrue , eval =T}
+result1 <- mean(a)
+```
+
+eval = F는 그냥 돌리지 않고 보여주기만 한다.
+
+```{r testcodeEvalFalse , eval =F}
+result2 <- median(a)
+```
+
+```{r}
+result1
+```
+
+결과 숨기는 옵션 
+
+results = 'hide'
+
+```{r testcodeResultoption, eval=T, results='hide'}
+b<- c(1:100)
+b
+```
+
+
+### 본문안에 삽입
+
+본문을 작성 중입니다. 앞에서 입력한 벡터 a의 평균은 `r result1`입니다.
+
+### chunck tip : ctrl + alt +i
+
+preview 기능이 있는데, 이때의 메모리와
+
+knit할 때 메모리가 다른 것을 알 수 있음.
+
+즉, 막 작성된 코드를 preview하려면 앞에서 다 돌려줘야지 읽을 수 있음.
+
+방법 : 코드 창에 ▼라는 기호가 있음. 이를 눌러줘야 위 코드를 모두 실행함.
+
+```{r}
+mean(c(result1,b))
+```
+코드를 안보이게 하려면? echo=F
+
+```{r irisplot, echo= F}
+data('iris')
+library(ggplot2)
+
+ggplot(iris) +
+ aes(x = Sepal.Length, y = Sepal.Width, colour = Species) +
+ geom_point() +
+ scale_color_hue(direction = 1) +
+ labs(title = "iris data scatter") +
+ theme_minimal()
+
+```
+

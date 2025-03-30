@@ -1,0 +1,105 @@
+---
+title: "5강 Rmd 파일에 수식입력하기"
+author: "박주성"
+date: "2025-03-30"
+output:
+    bookdown::pdf_document2:
+        latex_engine: xelatex
+        toc: TRUE
+header-includes:
+    - \usepackage{kotex}
+    - \setmainfont{맑은 고딕}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Rmd 파일에 수식 입력하는 방법
+
+## 본문 내에 삽입하는 방법 (Inline mode)
+
+'$' 를 사용하여 묶어준다.
+
+예로 들어, $y= f(x)$라는 것을 문장안에 넣어보자.
+
+## 본문과 독립적으로 삽입하는 방법 (Display mode)
+`$$` 를 사용하여 묶어준다.예로 들어,
+
+$$
+y= f(x)
+$$라는 것을 문장안에 넣어보자.
+
+# 수식을 여러줄로 입력하는 방법
+
+여러 줄의 수식을 입력할 경우에는 **`aligned`**라는 레이텍 환경을 이용한다.
+
+1. `$$` 기호로 display mode를 만든다.
+
+1. 'aligned' 환경을 만들어준다.
+
+1. `\\`기호를 begin,end를 이용하여 줄바꾼다.
+
+### ! Rstudio 수식 코드에서 미리보기 기능은 mathjax라는 프로그램을 쓰는데 이는 latex와 별개.
+
+### ! html이라면 `\\`으로 줄바꿈이 되었을 것임.
+
+### ! `\begin{aligned} ~~~ \end{aligned}`을 적어주면 된다.
+
+$$
+\begin{aligned}
+f(x,y) = x^2 + \sqrt{\pi y^3}\\
+g(x)= x^3 +x^2 +3x +5
+\end{aligned}
+$$
+
+## 여러줄 입력시 정렬 기준 정하기
+
+정렬 기준을 '&'를 사용하여 정해주면, 그 곳을 기준으로 정렬 된다.
+
+$$
+\begin{aligned}
+f(x,y) &= x^2 + \sqrt{\pi y^3}\\
+g(x)&= x^3 +x^2 +3x +5
+\end{aligned}
+$$
+
+# 입력한 수식에 번호 부여하기
+
+## 'aligned' 환경에서의 수식 번호 부여
+
+입력한 수식을 번호를 부여하기 위해서는
+`\begin{equation}, \end{equation}`과 `$$`은 같은 기능.
+두번 사용은 안되기에 `$$`을 지우고 랜더링 진행해야함.
+
+
+\begin{equation}
+\begin{aligned}
+f(x,y) &= x^2 + \sqrt{\pi y^3}\\
+g(x)&= x^3 +x^2 +3x +5 
+\end{aligned}
+(\#eq:f, g)
+\end{equation}
+
+## 'alig' 환경에서의 수식 번호 부여
+
+이 방식은 줄 마다 번호부여가 됨을 알 수 있다.
+
+붙히기 싫은 번호는 `\notag`을 쓰면 생략 된다.
+
+추가적으로 `alig`기능도 미리보기가 지원불가다.
+
+
+\begin{align}
+f(x,y) &= x^2 + \sqrt{\pi y^3} \notag \\
+g(x)&= x^3 +x^2 +3x +5 (\#eq:ch3/g) \\
+h(x) &= \int_{-\infty}^{+\infty} \{ k+{exp(-{x^2 \over2})\}}dx \notag
+\end{align}
+
+## 본문에서 수식 언급(refer)하기
+
+`\@ref()` ()안에는 `\#` 을 제외한 고유 id를 넣어주면 된다.
+
+또한, 수식의 라벨(부여된 id)는 꼭 `eq:`로 시작해야 하며 라벨에는 ':, -, /'만 사용 가능하다.
+
+식 \@ref(eq:ch3/g)에 따르면, 우리는 다음을 이끌어 낼 수 있다.
